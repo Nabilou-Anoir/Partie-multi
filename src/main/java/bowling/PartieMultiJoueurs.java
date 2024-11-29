@@ -1,11 +1,11 @@
 package bowling;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class PartieMultiJoueurs implements IPartieMultiJoueurs {
-	TreeMap<String, PartieMonoJoueur> partieMonoJoueurs;
+	HashMap<String, PartieMonoJoueur> partieMonoJoueurs;
 
 	/**
 	 * Démarre une nouvelle partie pour un groupe de joueurs
@@ -17,15 +17,15 @@ public class PartieMultiJoueurs implements IPartieMultiJoueurs {
 	 */
 	@Override
 	public String demarreNouvellePartie(String[] nomsDesJoueurs) throws IllegalArgumentException {
-		partieMonoJoueurs = new TreeMap<String, PartieMonoJoueur>();
+		partieMonoJoueurs = new HashMap<String, PartieMonoJoueur>();
 		if (nomsDesJoueurs.length == 0) {
-			throw new IllegalArgumentException("Pas de joueur dans la partie");
+			throw new IllegalArgumentException("Pas de jr dans la partie");
 		}
-		for (String s : nomsDesJoueurs) {
-			partieMonoJoueurs.put(s, new PartieMonoJoueur());
+		for (String i : nomsDesJoueurs) {
+			partieMonoJoueurs.put(i, new PartieMonoJoueur());
 		}
 
-		return this.getProchainLanceEtBoulePour(partieMonoJoueurs.firstKey());
+		return this.getProchainLanceEtBoulePour(String.valueOf(partieMonoJoueurs.size()));
 	}
 
 	/**
@@ -59,19 +59,19 @@ public class PartieMultiJoueurs implements IPartieMultiJoueurs {
 	@Override
 	public int scorePour(String nomDuJoueur) throws IllegalArgumentException {
 		if (partieMonoJoueurs.get(nomDuJoueur) == null) {
-			throw new IllegalArgumentException("Le joueur n'existe pas");
+			throw new IllegalArgumentException("pas de joueur");
 		}
 		return partieMonoJoueurs.get(nomDuJoueur).score();
 	}
 
 	public String getProchainJoueur() {
-		String nb = partieMonoJoueurs.firstKey();
+		String i = String.valueOf(partieMonoJoueurs.size());
 		for (Map.Entry<String, PartieMonoJoueur> joueurEntry : partieMonoJoueurs.entrySet()) {
-			if (joueurEntry.getValue().numeroTourCourant() < partieMonoJoueurs.get(nb).numeroTourCourant()) {
-				nb = joueurEntry.getKey();
+			if (joueurEntry.getValue().numeroTourCourant() < partieMonoJoueurs.get(i).numeroTourCourant()) {
+				i = joueurEntry.getKey();
 			}
 		}
-		return nb;
+		return i;
 	}
 
 	public String getProchainLanceEtBoulePour(String s) {
